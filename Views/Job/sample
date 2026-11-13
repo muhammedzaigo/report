@@ -1,0 +1,419 @@
+-- ============================================================================
+-- JOB REPORTING DATABASE - COMPLETE VIEW STRUCTURE
+-- ============================================================================
+-- Purpose: Create denormalized reporting views for multi-entity job system
+-- Target: Export to Excel/Google Sheets + API consumption
+-- Architecture: Layered aggregation to prevent cartesian explosion
+-- ============================================================================
+
+-- ============================================================================
+-- LAYER 1: BASE AGGREGATION VIEWS (Child Entities)
+-- ============================================================================
+
+-- Assets associated with jobs
+CREATE OR REPLACE VIEW public.mv_job_assets_agg AS
+SELECT 
+    ja.job_id,
+    COUNT(DISTINCT a.id) as asset_count,
+    string_agg(DISTINCT a.name, ', ' ORDER BY a.name) as asset_names,
+    string_agg(DISTINCT a.serial_no, ', ' ORDER BY a.serial_no) 
+        FILTER (WHERE a.serial_no IS NOT NULL) as asset_serial_numbers,
+    jsonb_agg(
+        jsonb_build_object(
+            'id', a.id,
+            'name', a.name,
+            'serial_no', a.serial_no,
+            'model_no', a.model_no,
+            'manufacturer', a.manufacturer,
+            'asset_type', at.option,
+            'criticality', crit.option,
+            'installation_date', a.installation_date,
+            'warranty_expiry_date', a.warranty_expiry_date
+        ) ORDER BY a.name
+    ) as assets_detail
+FROM job_schema.job_amc_or_assets ja
+INNER JOIN asset_schema.assets a 
+    ON ja.asset_id = a.id
+LEFT JOIN asset_schema.asset_defaultfield_option at 
+    ON a.asset_type_id = at.id AND at.status = 'active'
+LEFT JOIN asset_schema.asset_defaultfield_option crit 
+    ON a.criticality_id = crit.id AND crit.status = 'active'
+WHERE ja.status = 'active' 
+  AND a.status = 'active'
+GROUP BY ja.job_id;
+
+
+
+-- ============================================================================
+-- LAYER 2: FINAL REPORTING VIEW (One Row Per Job)
+-- ============================================================================
+
+CREATE OR REPLACE VIEW public.mv_job_report_final AS
+SELECT 
+    /* =====================
+       CORE JOB IDENTIFIERS
+    ====================== */
+    j.id as job_id,
+    j.encrypted_id,
+    j.job_no,
+
+    /* =====================
+       JOB BASIC INFO
+    ====================== */
+    j.title,
+    j.description,
+    j.job_type,
+    j.job_status,
+    j.service_category,
+    j.verification,
+    j.job_completion_code,
+    j.job_completion_customer_code,
+    
+    /* =====================
+       LOCATION
+    ====================== */
+    j.location,
+    j.latitude,
+    j.longitude,
+    j.location_id,
+    
+    /* =====================
+       SCHEDULING
+    ====================== */
+    j.job_schedule,
+    j.job_start_date,
+    j.job_start_time,
+    j.job_end_date,
+    j.job_end_time,
+    j.estimated_hours,
+    j.estimated_minutes,
+    j.estimated_hours * 60 + j.estimated_minutes as estimated_total_minutes,
+    
+    /* =====================
+       TIME TRACKING
+    ====================== */
+    j.actual_time_json,
+    j.actual_time_spent,
+    j.job_started_at,
+    j.completed_at,
+    j.completed_by,
+    -- EXTRACT(EPOCH FROM (j.completed_at - j.job_started_at))/3600 as actual_hours_elapsed,
+    
+    /* =====================
+       FINANCIAL
+    ====================== */
+    j.job_value,
+    COALESCE(time_track.total_hours, 0) as tracked_hours,
+    COALESCE(time_track.total_minutes, 0) as tracked_minutes,
+    COALESCE(time_track.total_labor_cost, 0) as total_labor_cost,
+    COALESCE(cost_track.total_cost, 0) as total_material_cost,
+    COALESCE(time_track.total_labor_cost, 0) + COALESCE(cost_track.total_cost, 0) as total_job_cost,
+    
+    /* =====================
+       JOB CLASSIFICATIONS
+    ====================== */
+    j.business_unit_id,
+    bu.option as business_unit_name,
+    j.service_type_id,
+    st.option as service_type_name,
+    j.priority_id,
+    pr.option as priority_name,
+    
+    /* =====================
+       CUSTOMER INFORMATION
+    ====================== */
+    j.customer_type,
+    j.company_id,
+    comp.name as company_name,
+    j.contact_id,
+    cont.name as contact_name,
+    
+    /* =====================
+       LEAD INFORMATION
+    ====================== */
+    j.lead_id,
+    l.name as lead_name,
+    
+    /* =====================
+       AMC INFORMATION
+    ====================== */
+    j.amc_id,
+    amc.prefix as amc_prefix,
+    amc.number as amc_number,
+    amc.title as amc_title,
+    amc.amc_type,
+    amc.start_date as amc_start_date,
+    amc.expiry_date as amc_expiry_date,
+    amc.value as amc_value,
+    amc.no_of_visit as amc_visits,
+    j.visit as current_visit_number,
+    
+    /* =====================
+       ASSIGNMENT
+    ====================== */
+    j.job_created_from,
+    
+    /* =====================
+       AGGREGATED CHILDREN (Counts & Names)
+    ====================== */
+    COALESCE(assets.asset_count, 0) as asset_count,
+    assets.asset_names,
+    assets.asset_serial_numbers,
+    
+    COALESCE(techs.technician_count, 0) as technician_count,
+    techs.technician_names,
+    techs.technician_statuses,
+    
+    COALESCE(teams.team_count, 0) as team_count,
+    teams.team_names,
+    
+    COALESCE(checklists.checklist_count, 0) as checklist_count,
+    checklists.checklist_names,
+    COALESCE(checklists.mandatory_count, 0) as mandatory_checklist_count,
+    
+    COALESCE(tags.tag_count, 0) as tag_count,
+    tags.tags_list,
+    
+    COALESCE(time_track.time_entry_count, 0) as time_entry_count,
+    COALESCE(cost_track.cost_entry_count, 0) as cost_entry_count,
+    
+    /* =====================
+       STRUCTURED DATA (JSON)
+    ====================== */
+    assets.assets_detail,
+    techs.technicians_detail,
+    teams.teams_detail,
+    checklists.checklists_detail,
+    tags.tags_array,
+    custom_fields.custom_fields,
+    addon_custom.addon_custom_fields,
+    time_track.time_entries,
+    cost_track.cost_entries,
+    
+    /* =====================
+       AUDIT FIELDS
+    ====================== */
+    j.tenant_id,
+    j.workspace_id,
+    j.created_by,
+    created_user.name as created_by_name,
+    created_user.email as created_by_email,
+    j.created_at,
+    j.updated_by,
+    updated_user.name as updated_by_name,
+    updated_user.email as updated_by_email,
+    j.updated_at,
+    j.deleted_at,
+    j.status as record_status
+
+FROM job_schema.jobs j
+
+/* ===== 1:1 LOOKUPS (Reference Data) ===== */
+LEFT JOIN job_schema.job_defaultfield_option bu 
+    ON bu.id = j.business_unit_id AND bu.status = 'active'
+LEFT JOIN job_schema.job_defaultfield_option st 
+    ON st.id = j.service_type_id AND st.status = 'active'
+LEFT JOIN job_schema.job_defaultfield_option pr 
+    ON pr.id = j.priority_id AND pr.status = 'active'
+
+/* ===== CUSTOMER ENTITIES ===== */
+LEFT JOIN user_schema.companies comp 
+    ON j.company_id = comp.id::text
+LEFT JOIN user_schema.contacts cont 
+    ON j.contact_id = cont.id::text
+
+/* ===== LEAD ===== */
+LEFT JOIN job_schema.leads l 
+    ON j.lead_id = l.id AND l.status = 'active'
+LEFT JOIN lead_schema.lead_defaultfield_option lead_stat 
+    ON l.lead_status_id = lead_stat.id AND lead_stat.status = 'active'
+
+/* ===== AMC ===== */
+LEFT JOIN job_schema.amcs amc 
+    ON j.amc_id = amc.id AND amc.status = 'active'
+
+/* ===== USERS ===== */
+LEFT JOIN user_schema.users created_user 
+    ON j.created_by = created_user.id
+LEFT JOIN user_schema.users updated_user 
+    ON j.updated_by = updated_user.id
+
+/* ===== PRE-AGGREGATED CHILD VIEWS (1:Many Relationships) ===== */
+LEFT JOIN public.mv_job_assets_agg assets 
+    ON assets.job_id = j.id
+LEFT JOIN public.mv_job_technicians_agg techs 
+    ON techs.job_id = j.id
+LEFT JOIN public.mv_job_teams_agg teams 
+    ON teams.job_id = j.id
+LEFT JOIN public.mv_job_checklists_agg checklists 
+    ON checklists.job_id = j.id
+LEFT JOIN public.mv_job_tags_agg tags 
+    ON tags.job_id = j.id
+LEFT JOIN public.mv_job_customfields_agg custom_fields 
+    ON custom_fields.job_id = j.id
+LEFT JOIN public.mv_job_addon_customfields_agg addon_custom 
+    ON addon_custom.job_id = j.id
+LEFT JOIN public.mv_job_time_tracking_agg time_track 
+    ON time_track.job_id = j.id
+LEFT JOIN public.mv_job_cost_tracking_agg cost_track 
+    ON cost_track.job_id = j.id
+
+WHERE j.status IN ('active', 'completed', 'cancelled'); -- Exclude deleted/draft
+
+-- ============================================================================
+-- LAYER 3: MATERIALIZED VIEW FOR PERFORMANCE (Optional)
+-- ============================================================================
+
+CREATE MATERIALIZED VIEW public.mv_job_report AS
+SELECT * FROM public.mv_job_report_final;
+
+-- Indexes for common query patterns
+CREATE INDEX idx_mv_job_workspace_status 
+    ON public.mv_job_report (workspace_id, job_status);
+CREATE INDEX idx_mv_job_dates 
+    ON public.mv_job_report (job_start_date, job_end_date);
+CREATE INDEX idx_mv_job_company 
+    ON public.mv_job_report (company_id, job_status);
+CREATE INDEX idx_mv_job_technician 
+    ON public.mv_job_report USING gin (technician_names gin_trgm_ops);
+CREATE INDEX idx_mv_job_created 
+    ON public.mv_job_report (created_at DESC);
+
+-- Refresh function (call via scheduler or API)
+CREATE OR REPLACE FUNCTION public.refresh_job_report()
+RETURNS TABLE (
+    rows_affected bigint,
+    refresh_duration interval,
+    refresh_timestamp timestamptz
+) AS $
+DECLARE
+    v_start timestamptz;
+    v_count bigint;
+BEGIN
+    v_start := clock_timestamp();
+    
+    REFRESH MATERIALIZED VIEW CONCURRENTLY public.mv_job_report;
+    
+    GET DIAGNOSTICS v_count = ROW_COUNT;
+    
+    RETURN QUERY SELECT 
+        v_count,
+        clock_timestamp() - v_start,
+        clock_timestamp();
+END;
+$ LANGUAGE plpgsql;
+
+-- ============================================================================
+-- LAYER 4: EXCEL/GOOGLE SHEETS EXPORT VIEW (Simplified Columns)
+-- ============================================================================
+
+CREATE OR REPLACE VIEW public.mv_job_report_excel AS
+SELECT 
+    ROW_NUMBER() OVER (ORDER BY created_at DESC) as row_number,
+    
+    /* Core Fields (26 columns max for Excel friendliness) */
+    job_no,
+    title,
+    job_status,
+    priority_name,
+    business_unit_name,
+    service_type_name,
+    
+    company_name,
+    contact_name,
+    contact_phone,
+    
+    job_start_date,
+    job_start_time,
+    estimated_hours || 'h ' || estimated_minutes || 'm' as estimated_duration,
+    
+    technician_names,
+    technician_count,
+    
+    asset_count,
+    asset_names,
+    
+    checklist_count,
+    checklist_names,
+    
+    job_value,
+    total_labor_cost,
+    total_material_cost,
+    total_job_cost,
+    profit_margin,
+    
+    tags_list,
+    
+    created_by_name,
+    created_at::date as created_date,
+    
+    workspace_id,
+    tenant_id
+
+FROM public.mv_job_report_final
+ORDER BY created_at DESC;
+
+-- ============================================================================
+-- USAGE EXAMPLES
+-- ============================================================================
+
+/*
+-- Example 1: Get all active jobs for a workspace
+SELECT * FROM public.mv_job_report_final
+WHERE workspace_id = 'ac527a13-5f88-48d5-b377-82449c097f43'
+  AND job_status = 'active'
+ORDER BY job_start_date DESC;
+
+-- Example 2: Jobs with high costs
+SELECT 
+    job_no,
+    title,
+    company_name,
+    job_value,
+    total_job_cost,
+    profit_margin,
+    (profit_margin / NULLIF(job_value, 0) * 100) as profit_margin_pct
+FROM public.mv_job_report_final
+WHERE total_job_cost > 1000
+ORDER BY total_job_cost DESC;
+
+-- Example 3: Technician workload
+SELECT 
+    technician_names,
+    COUNT(*) as job_count,
+    SUM(estimated_hours) as total_estimated_hours,
+    SUM(job_value) as total_job_value
+FROM public.mv_job_report_final
+WHERE job_status IN ('in_progress', 'assigned')
+  AND technician_names IS NOT NULL
+GROUP BY technician_names
+ORDER BY job_count DESC;
+
+-- Example 4: Export to CSV (via psql or application)
+\copy (SELECT * FROM public.mv_job_report_excel WHERE workspace_id = 'xxx') TO '/tmp/jobs_report.csv' CSV HEADER;
+
+-- Example 5: API JSON response
+SELECT jsonb_build_object(
+    'jobs', jsonb_agg(
+        jsonb_build_object(
+            'job_no', job_no,
+            'title', title,
+            'status', job_status,
+            'company', company_name,
+            'technicians', technicians_detail,
+            'assets', assets_detail,
+            'financials', jsonb_build_object(
+                'value', job_value,
+                'cost', total_job_cost,
+                'profit', profit_margin
+            )
+        )
+    )
+)
+FROM public.mv_job_report_final
+WHERE workspace_id = 'xxx'
+LIMIT 100;
+
+-- Example 6: Refresh materialized view
+SELECT * FROM public.refresh_job_report();
+*/

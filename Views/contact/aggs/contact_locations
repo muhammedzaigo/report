@@ -1,0 +1,13 @@
+CREATE MATERIALIZED VIEW mv_contact_locations_agg AS
+SELECT
+    loc.contact_id,
+    COUNT(DISTINCT loc.id) AS locations_count,
+    string_agg(
+        DISTINCT loc.name,
+        ', '
+        ORDER BY loc.name
+    ) AS locations,
+    array_agg(DISTINCT loc.id ORDER BY loc.id) AS location_ids -- For filtering
+FROM user_schema.contact_locations loc
+WHERE loc.status = 'active'
+GROUP BY loc.contact_id;

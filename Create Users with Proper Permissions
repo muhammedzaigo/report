@@ -1,0 +1,112 @@
+############################### Job
+
+-- 1. Connect to job-app database
+-- In pgAdmin: Click on "dev_getfieldy_job_db" → Tools → Query Tool
+
+-- 2. Create user
+CREATE USER report_reader WITH PASSWORD 'OsR1tH2A20q78sumZO2fR1lc7MTl8LZp';
+
+-- 3. Grant connection
+GRANT CONNECT ON DATABASE "dev_getfieldy_job_db" TO report_reader;
+
+-- 4. Grant schema usage
+GRANT USAGE ON SCHEMA public TO report_reader;
+
+-- 5. Grant SELECT on all existing tables
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO report_reader;
+
+-- 6. Grant SELECT on future tables
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT SELECT ON TABLES TO report_reader;
+
+-- 7. Verify
+SELECT grantee, privilege_type 
+FROM information_schema.role_table_grants 
+WHERE grantee = 'report_reader' 
+LIMIT 10;
+
+############################### User
+
+-- 1. Connect to job-app database
+-- In pgAdmin: Click on "dev_getfieldy_job_db" → Tools → Query Tool
+
+-- 2. Create user
+-- CREATE USER report_reader WITH PASSWORD 'OsR1tH2A20q78sumZO2fR1lc7MTl8LZp';
+
+-- 3. Grant connection
+GRANT CONNECT ON DATABASE "dev_getfieldy_db" TO report_reader;
+
+-- 4. Grant schema usage
+GRANT USAGE ON SCHEMA public TO report_reader;
+
+-- 5. Grant SELECT on all existing tables
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO report_reader;
+
+-- 6. Grant SELECT on future tables
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT SELECT ON TABLES TO report_reader;
+
+-- 7. Verify
+SELECT grantee, privilege_type 
+FROM information_schema.role_table_grants 
+WHERE grantee = 'report_reader' 
+LIMIT 10;
+
+############################### Tracking
+
+-- 1. Connect to job-app database
+-- In pgAdmin: Click on "dev_getfieldy_job_db" → Tools → Query Tool
+
+-- 2. Create user
+-- CREATE USER report_reader WITH PASSWORD 'OsR1tH2A20q78sumZO2fR1lc7MTl8LZp';
+
+-- 3. Grant connection
+GRANT CONNECT ON DATABASE "dev_getfieldy_tracking_db" TO report_reader;
+
+-- 4. Grant schema usage
+GRANT USAGE ON SCHEMA public TO report_reader;
+
+-- 5. Grant SELECT on all existing tables
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO report_reader;
+
+-- 6. Grant SELECT on future tables
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT SELECT ON TABLES TO report_reader;
+
+-- 7. Verify
+SELECT grantee, privilege_type 
+FROM information_schema.role_table_grants 
+WHERE grantee = 'report_reader' 
+LIMIT 10;
+
+############################### Accounting
+
+-- 1. Connect to job-app database
+-- In pgAdmin: Click on "dev_getfieldy_job_db" → Tools → Query Tool
+
+-- 2. Create user
+-- CREATE USER report_reader WITH PASSWORD 'OsR1tH2A20q78sumZO2fR1lc7MTl8LZp';
+
+-- 3. Grant connection
+GRANT CONNECT ON DATABASE "dev_getfieldy_accounting_db" TO report_reader;
+
+-- 4. Grant schema usage
+GRANT USAGE ON SCHEMA public TO report_reader;
+
+-- 5. Grant SELECT on all existing tables
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO report_reader;
+
+-- 6. Grant SELECT on future tables
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT SELECT ON TABLES TO report_reader;
+
+-- 7. Verify
+SELECT grantee, privilege_type 
+FROM information_schema.role_table_grants 
+WHERE grantee = 'report_reader' 
+LIMIT 10;
+
+
+-- 2. Recommended solution: Switch to reporting_user
+-- Since you created the FDW mappings for reporting_user, execute:
+SET ROLE reporting_user;

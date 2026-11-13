@@ -1,0 +1,28 @@
+CREATE OR REPLACE VIEW public.vw_job_tags_agg AS
+SELECT
+    t.job_id,
+    COUNT(DISTINCT t.id) AS tags_count,
+    string_agg(
+        DISTINCT (t.tag),
+        ', '
+        ORDER BY (t.tag)
+    ) AS tags
+
+FROM job_schema.job_tags t
+WHERE t.status = 'active'
+GROUP BY t.job_id;
+
+
+CREATE MATERIALIZED VIEW mv_job_tags_agg AS
+SELECT
+    t.job_id,
+    COUNT(DISTINCT t.id) AS tags_count,
+    string_agg(
+        DISTINCT t.tag,
+        ', '
+        ORDER BY t.tag
+    ) AS tags,
+    array_agg(DISTINCT t.id ORDER BY t.id) AS tag_ids -- For filtering
+FROM job_schema.job_tags t
+WHERE t.status = 'active'
+GROUP BY t.job_id;

@@ -1,0 +1,40 @@
+Set role reporting_user;
+
+-- First refresh custom fields
+REFRESH MATERIALIZED VIEW public.mv_user_custom_fields;
+REFRESH MATERIALIZED VIEW public.mv_users;
+
+REFRESH MATERIALIZED VIEW public.mv_contact_custom_fields;
+REFRESH MATERIALIZED VIEW public.mv_company_contact_custom_fields;
+REFRESH MATERIALIZED VIEW public.mv_company_custom_fields;
+
+REFRESH MATERIALIZED VIEW public.mv_contacts;
+REFRESH MATERIALIZED VIEW public.mv_companies;
+
+REFRESH MATERIALIZED VIEW public.mv_job_custom_fields;
+REFRESH MATERIALIZED VIEW public.mv_job_add_on_custom_fields;
+REFRESH MATERIALIZED VIEW public.mv_job_amc_assets_agg;
+REFRESH MATERIALIZED VIEW public.mv_job_amc_services_agg;
+REFRESH MATERIALIZED VIEW public.mv_job_assets_agg;
+REFRESH MATERIALIZED VIEW public.mv_job_checklists_agg;
+REFRESH MATERIALIZED VIEW public.mv_job_cost_tracking_agg;
+REFRESH MATERIALIZED VIEW public.mv_job_teams_agg;
+REFRESH MATERIALIZED VIEW public.mv_job_technicians_agg;
+REFRESH MATERIALIZED VIEW public.mv_job_time_tracking_agg;
+REFRESH MATERIALIZED VIEW public.mv_jobs;
+
+REFRESH MATERIALIZED VIEW public.mv_asset_custom_fields;
+REFRESH MATERIALIZED VIEW public.mv_assets;
+
+REFRESH MATERIALIZED VIEW public.mv_amc_custom_fields;
+REFRESH MATERIALIZED VIEW public.mv_amcs;
+
+REFRESH MATERIALIZED VIEW public.mv_lead_custom_fields;
+REFRESH MATERIALIZED VIEW public.mv_lead_forms_agg;
+REFRESH MATERIALIZED VIEW public.mv_leads;
+
+REFRESH MATERIALIZED VIEW public.mv_task_custom_fields;
+REFRESH MATERIALIZED VIEW public.mv_task_forms_agg;
+REFRESH MATERIALIZED VIEW public.mv_tasks;
+
+

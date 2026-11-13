@@ -1,0 +1,40 @@
+CREATE MATERIALIZED VIEW public.mv_job_cost_tracking_agg AS
+SELECT 
+    jac.job_id,
+    COUNT(*) as cost_entry_count,
+    SUM(jac.cost) as total_cost,
+    jsonb_agg(
+        jsonb_build_object(
+            'user_id', u.id,
+            'user_name', u.name,
+            'cost', jac.cost,
+            'description', jac.description,
+            'category', cts.category,
+            'created_at', jac.created_at
+        ) ORDER BY jac.created_at DESC
+    ) as cost_entries
+FROM job_schema.job_add_costs jac
+LEFT JOIN user_schema.users u ON jac.user_id = u.id
+LEFT JOIN job_schema.job_cost_tracking_settings cts 
+    ON jac.cost_tracking_category_id = cts.id 
+    AND cts.status = 'active'
+WHERE jac.status = 'active'
+GROUP BY jac.job_id;
+
+
+CREATE MATERIALIZED VIEW public.mv_job_time_tracking_agg AS
+SELECT 
+    jat.job_id,
+    jsonb_agg(
+        DISTINCT jsonb_build_object(
+            'hours', jat.hours,
+            'minutes', jat.minutes
+        )
+    ) as job_add_times
+    
+FROM job_schema.job_add_times jat
+LEFT JOIN job_schema.job_time_tracking_settings tts 
+    ON jat.time_tracking_service_id = tts.id 
+    AND tts.status = 'active'
+WHERE jat.status = 'active'
+GROUP BY jat.job_id;

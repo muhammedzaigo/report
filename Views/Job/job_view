@@ -1,0 +1,88 @@
+-- In reporting_db
+CREATE OR REPLACE VIEW public.vw_job_report AS
+SELECT 
+
+    j.id,
+    j.location_id,
+    j.customer_type,
+    j.service_category,
+    j.amc_id,
+    j.job_no,
+    j.location,
+    j.title,
+    j.description,
+    j.estimated_hours,
+    j.estimated_minutes,
+    j.job_schedule,
+    j.job_start_date,
+    j.job_start_time,
+    j.job_end_date,
+    j.job_end_time,
+    j.assign_to,
+    j.job_value,
+    j.job_status,
+    j.job_created_from,
+    j.job_started_at,
+    j.job_type,
+    j.actual_time_spent,
+    
+    j.tenant_id,
+    j.workspace_id,
+    j.created_at,
+    j.updated_at,
+    
+    j.business_unit_id,
+    j.service_type_id,
+    j.priority_id,
+
+    /* =====================
+       JOB DEFAULT FIELDS
+    ====================== */
+    bu.option        AS business_unit_name,
+    st.option        AS service_type_name,
+    pr.option        AS job_priority_name,
+
+
+    -- Company details
+    j.company_id,
+    comp.name AS company_name,
+    comp.email AS company_email,
+    
+    -- Contact person details
+    j.contact_id,
+    cont.name AS contact_name,
+    cont.email AS contact_email,
+    
+    -- Lead information
+    j.lead_id,
+    l.name AS lead_name,
+
+    -- Created by user
+    j.created_by,
+    created_user.name AS created_by_name,
+	j.updated_by,
+	updated_user.name AS updated_by_name
+
+FROM job_schema.jobs j
+
+/* LEAD */
+LEFT JOIN job_schema.leads l ON j.lead_id = l.id AND l.status = 'active'
+
+/* JOB DEFAULT FIELD OPTIONS */
+LEFT JOIN job_schema.job_defaultfield_option bu ON bu.id = j.business_unit_id AND bu.status = 'active'
+
+LEFT JOIN job_schema.job_defaultfield_option st ON st.id = j.service_type_id AND st.status = 'active'
+
+LEFT JOIN job_schema.job_defaultfield_option pr ON pr.id = j.priority_id AND pr.status = 'active'
+      
+/* COMPANY */
+LEFT JOIN user_schema.companies comp ON j.company_id = comp.id::text
+
+/* CONTACT */
+LEFT JOIN user_schema.contacts cont ON j.contact_id = cont.id::text
+
+/* USER */
+LEFT JOIN user_schema.users created_user ON j.created_by = created_user.id
+LEFT JOIN user_schema.users updated_user ON j.updated_by = updated_user.id
+
+WHERE j.status = 'active';

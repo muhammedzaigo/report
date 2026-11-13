@@ -1,0 +1,30 @@
+CREATE OR REPLACE VIEW public.vw_job_assets_agg AS
+SELECT 
+    ja.job_id,
+    COUNT(DISTINCT a.id) as asset_count,
+    string_agg(DISTINCT a.name, ', ' ORDER BY a.name) as asset_names,
+    string_agg(DISTINCT a.serial_no, ', ' ORDER BY a.serial_no) 
+        FILTER (WHERE a.serial_no IS NOT NULL) as asset_serial_numbers,
+    jsonb_agg(
+        jsonb_build_object(
+            'id', a.id,
+            'name', a.name,
+            'serial_no', a.serial_no,
+            'model_no', a.model_no,
+            'manufacturer', a.manufacturer,
+            'asset_type', at.option,
+            'criticality', crit.option,
+            'installation_date', a.installation_date,
+            'warranty_expiry_date', a.warranty_expiry_date
+        ) ORDER BY a.name
+    ) as assets_detail
+FROM job_schema.job_amc_or_assets ja
+INNER JOIN job_schema.assets a 
+    ON ja.asset_id = a.id
+LEFT JOIN job_schema.asset_defaultfield_option at 
+    ON a.asset_type_id = at.id AND at.status = 'active'
+LEFT JOIN job_schema.asset_defaultfield_option crit 
+    ON a.criticality_id = crit.id AND crit.status = 'active'
+WHERE ja.status = 'active' 
+  AND a.status = 'active'
+GROUP BY ja.job_id;

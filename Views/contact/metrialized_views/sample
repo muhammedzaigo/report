@@ -1,0 +1,89 @@
+-- 1. Create the main materialized view
+CREATE MATERIALIZED VIEW mv_contact_report AS
+SELECT
+    c.id            AS contact_id,
+    c.contact_id    AS contact_code,
+    c.name,
+    c.email,
+    c.tax_number,
+    c.status,
+    ph.phone_numbers,
+    ph.contact_phone_no_details,
+    tg.tags,
+    tg.tag_ids,  -- Added for filtering
+    cf.custom_fields,
+    cf.custom_fields_text, -- Added for text search
+    loc.locations,
+    loc.location_ids, -- Added for filtering
+    c.created_by,
+    created_user.name AS created_by_name,
+    c.updated_by,
+    updated_user.name AS updated_by_name,
+    c.created_at,
+    c.updated_at
+FROM user_schema.contacts c
+LEFT JOIN mv_contact_phone_no_agg ph ON ph.contact_id = c.id
+LEFT JOIN mv_contact_tags_agg tg ON tg.contact_id = c.id
+LEFT JOIN mv_contact_customfields_agg cf ON cf.contact_id = c.id
+LEFT JOIN mv_contact_locations_agg loc ON loc.contact_id = c.id
+LEFT JOIN user_schema.users created_user ON c.created_by = created_user.id
+LEFT JOIN user_schema.users updated_user ON c.updated_by = updated_user.id
+WHERE c.company_id IS NULL;
+
+
+-- 6. Create indexes for efficient searching and filtering
+CREATE INDEX idx_mv_contact_report_contact_id ON mv_contact_report(contact_id);
+CREATE INDEX idx_mv_contact_report_name ON mv_contact_report USING gin(name gin_trgm_ops);
+CREATE INDEX idx_mv_contact_report_email ON mv_contact_report USING gin(email gin_trgm_ops);
+CREATE INDEX idx_mv_contact_report_phone ON mv_contact_report USING gin(phone_numbers gin_trgm_ops);
+CREATE INDEX idx_mv_contact_report_tags ON mv_contact_report USING gin(tag_ids);
+CREATE INDEX idx_mv_contact_report_locations ON mv_contact_report USING gin(location_ids);
+CREATE INDEX idx_mv_contact_report_custom_text ON mv_contact_report USING gin(custom_fields_text gin_trgm_ops);
+CREATE INDEX idx_mv_contact_report_status ON mv_contact_report(status);
+CREATE INDEX idx_mv_contact_report_created_at ON mv_contact_report(created_at);
+CREATE INDEX idx_mv_contact_report_updated_at ON mv_contact_report(updated_at);
+
+-- 7. Create function to refresh all materialized views in correct order
+CREATE OR REPLACE FUNCTION refresh_contact_materialized_views()
+RETURNS void AS $$
+BEGIN
+    -- Refresh in dependency order
+    REFRESH MATERIALIZED VIEW CONCURRENTLY mv_contact_phone_no_agg;
+    REFRESH MATERIALIZED VIEW CONCURRENTLY mv_contact_tags_agg;
+    REFRESH MATERIALIZED VIEW CONCURRENTLY mv_contact_customfields_agg;
+    REFRESH MATERIALIZED VIEW CONCURRENTLY mv_contact_locations_agg;
+    REFRESH MATERIALIZED VIEW CONCURRENTLY mv_contact_report;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 8. Example search queries
+
+-- Text search across name, email, phone, and custom fields
+SELECT * FROM mv_contact_report
+WHERE 
+    name ILIKE '%search_term%' 
+    OR email ILIKE '%search_term%'
+    OR phone_numbers ILIKE '%search_term%'
+    OR custom_fields_text ILIKE '%search_term%';
+
+-- Filter by tag IDs
+SELECT * FROM mv_contact_report
+WHERE tag_ids && ARRAY[1, 2, 3]::uuid[]; -- Contains any of these tag IDs
+
+-- Filter by specific tag ID
+SELECT * FROM mv_contact_report
+WHERE 'tag-uuid-here'::uuid = ANY(tag_ids);
+
+-- Filter by location IDs
+SELECT * FROM mv_contact_report
+WHERE location_ids && ARRAY[4, 5, 6]::uuid[];
+
+-- Combined search and filter
+SELECT * FROM mv_contact_report
+WHERE 
+    (name ILIKE '%john%' OR email ILIKE '%john%')
+    AND tag_ids && ARRAY['tag-uuid']::uuid[]
+    AND status = 'active';
+
+-- 9. Create a scheduled job to refresh (example using pg_cron extension)
+-- SELECT cron.schedule('refresh-contact-views', '0 * * * *', 'SELECT refresh_contact_materialized_views()');

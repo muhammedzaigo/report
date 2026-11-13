@@ -1,0 +1,53 @@
+-- CREATE OR REPLACE VIEW vw_job_add_on_customfields_agg AS
+-- SELECT
+--     job_id,
+
+--     jsonb_object_agg(
+--         label,
+--         jsonb_build_object(
+--             'field_type', field_type,
+--             'value', resolved_value,
+--             'required', required
+--         )
+--         ORDER BY label
+--     ) AS custom_fields
+
+-- FROM vw_job_add_on_customfield_resolved
+-- GROUP BY job_id;
+
+
+-- 4. Materialized view for custom fields with text search support
+CREATE MATERIALIZED VIEW mv_job_add_on_customfields_agg AS
+SELECT
+    job_id,
+    jsonb_object_agg(
+        label,
+        jsonb_build_object(
+            'field_type', field_type,
+            'value', resolved_value,
+            'required', required
+        )
+        ORDER BY label
+    ) AS custom_fields,
+    -- Aggregate all text values for search
+    string_agg(
+        CASE 
+            WHEN field_type IN ('text', 'textarea', 'email', 'url') 
+            THEN COALESCE(value, '')
+            WHEN field_type IN ('multiple_dropdown', 'checkbox', 'single_dropdown', 'radio')
+            THEN resolved_value::text
+            ELSE ''
+        END,
+        ' '
+    ) AS custom_fields_text,
+    -- Aggregate date/time values for filtering
+    jsonb_object_agg(
+        CASE WHEN value_date IS NOT NULL OR value_time IS NOT NULL 
+        THEN label ELSE NULL END,
+        jsonb_build_object(
+            'date', value_date,
+            'time', value_time
+        )
+    ) FILTER (WHERE value_date IS NOT NULL OR value_time IS NOT NULL) AS custom_fields_datetime
+FROM vw_job_add_on_customfield_resolved
+GROUP BY job_id;

@@ -1,0 +1,110 @@
+CREATE USER reporting_user WITH PASSWORD 'Zaigo@25';
+GRANT CONNECT ON DATABASE reporting_db TO reporting_user;
+
+#####################################
+
+CREATE USER report_reader WITH PASSWORD 'Zaigo@25';
+
+GRANT CONNECT ON DATABASE "fieldy-backend-accounting-app" TO report_reader;
+GRANT USAGE ON SCHEMA public TO report_reader;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO report_reader;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT SELECT ON TABLES TO report_reader;
+
+-- Job --
+GRANT CONNECT ON DATABASE "fieldy-backend-job-app" TO report_reader;
+GRANT USAGE ON SCHEMA public TO report_reader;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO report_reader;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT SELECT ON TABLES TO report_reader;
+
+#####################################
+
+CREATE EXTENSION postgres_fdw;
+
+CREATE SERVER job_server
+FOREIGN DATA WRAPPER postgres_fdw
+OPTIONS (
+    host 'localhost',  -- points to your host machine
+    dbname 'fieldy-backend-job-app',
+    port '5435'
+);
+
+CREATE SERVER user_server
+FOREIGN DATA WRAPPER postgres_fdw
+OPTIONS (
+    host 'localhost',  -- points to your host machine
+    dbname 'fieldy-backend-user-app',
+    port '5435'
+);
+
+CREATE SERVER tracking_server
+FOREIGN DATA WRAPPER postgres_fdw
+OPTIONS (
+    host 'localhost',  -- points to your host machine
+    dbname 'fieldy-backend-tracking-app',
+    port '5435'
+);
+
+CREATE SERVER accounting_server
+FOREIGN DATA WRAPPER postgres_fdw
+OPTIONS (
+    host 'localhost',  -- points to your host machine
+    dbname 'fieldy-backend-accounting-app',
+    port '5435'
+);
+
+#####################################
+
+CREATE USER MAPPING FOR reporting_user
+SERVER job_server
+OPTIONS (
+    user 'report_reader',
+    password 'Zaigo@25'
+);
+
+CREATE USER MAPPING FOR reporting_user
+SERVER user_server
+OPTIONS (
+    user 'report_reader',
+    password 'Zaigo@25'
+);
+
+
+CREATE USER MAPPING FOR reporting_user
+SERVER accounting_server
+OPTIONS (
+    user 'report_reader',
+    password 'Zaigo@25'
+);
+
+CREATE USER MAPPING FOR reporting_user
+SERVER tracking_server
+OPTIONS (
+    user 'report_reader',
+    password 'Zaigo@25'
+);
+
+#####################################
+
+CREATE SCHEMA job_schema;
+CREATE SCHEMA user_schema;
+CREATE SCHEMA tracking_schema;
+CREATE SCHEMA accounting_schema;
+
+#####################################
+
+IMPORT FOREIGN SCHEMA public
+LIMIT TO (jobs, job_tags, leads)
+FROM SERVER job_server
+INTO job_schema;
+
+#####################################
+
+SELECT * FROM job_schema.jobs LIMIT 5;
+
+
+
+https://claude.ai/chat/358d3770-4908-4d84-88d0-7dcc0280bc94

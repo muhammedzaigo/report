@@ -1,0 +1,20 @@
+CREATE MATERIALIZED VIEW mv_contact_phone_no_agg AS
+SELECT
+    a.contact_id,
+    COUNT(DISTINCT a.id) AS phone_no_count,
+    string_agg(
+        DISTINCT (a.country_code || a.phone_number),
+        ', '
+        ORDER BY (a.country_code || a.phone_number)
+    ) AS phone_numbers,
+    jsonb_agg(
+        jsonb_build_object(
+            'id', a.id,
+            'country_code', a.country_code,
+            'phone_number', a.phone_number
+        )
+        ORDER BY a.phone_number
+    ) AS contact_phone_no_details
+FROM user_schema.contact_phone_no a
+WHERE a.status = 'active'
+GROUP BY a.contact_id;

@@ -1,0 +1,46 @@
+CREATE OR REPLACE VIEW vw_job_add_on_customfield_resolved AS
+SELECT
+    ccfv.entity_id AS job_id,
+    ccf.id        AS add_on_customfield_id,
+    ccf.label,
+    ccf.field_type,
+    ccf.required,
+    ccfv.value_json,
+    ccfv.value,
+    ccfv.value_date,
+    ccfv.value_time,
+
+    CASE
+        /* =========================
+           MULTI CHOICE
+        ========================= */
+        WHEN ccf.field_type IN ('multiple_dropdown', 'checkbox','single_dropdown', 'radio') THEN
+            (
+                SELECT jsonb_agg(
+                    jsonb_build_object(
+                        'id', opt2.id,
+                        'label', opt2.option
+                    )
+                    ORDER BY opt2.option
+                )
+                FROM job_schema.job_add_on_customfield_option opt2
+                WHERE opt2.id = ANY (
+                    SELECT jsonb_array_elements_text(ccfv.value_json::jsonb)::uuid
+                )
+            )
+
+        /* =========================
+           OTHER TYPES
+        ========================= */
+        ELSE
+            COALESCE(
+                to_jsonb(ccfv.value),
+                to_jsonb(ccfv.value_date),
+                to_jsonb(ccfv.value_time)
+            )
+    END AS resolved_value
+
+FROM job_schema.job_add_on_customfield_value ccfv
+JOIN job_schema.job_add_on_customfield ccf
+    ON ccf.id = ccfv.add_on_customfield_id AND ccf.status = 'active'
+WHERE ccfv.status = 'active';

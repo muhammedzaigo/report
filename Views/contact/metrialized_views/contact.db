@@ -1,0 +1,84 @@
+CREATE MATERIALIZED VIEW public.mv_contacts AS
+SELECT 
+    c.id,
+    c.contact_id,
+    c.name,
+    c.email,
+    c.tax_number,
+    c.status,
+    c.created_at,
+    c.updated_at,
+    c.created_by,
+    c.updated_by,
+    c.workspace_id,
+    c.tenant_id,
+    c.company_id,
+    
+    -- Phone numbers as comma-separated string
+    COALESCE(
+	    string_agg(
+	        DISTINCT
+	        CASE
+	            WHEN cp.country_code IS NOT NULL AND cp.country_code <> ''
+	                THEN cp.country_code || ' ' || COALESCE(cp.phone_number, '')
+	            ELSE COALESCE(cp.phone_number, '')
+	        END,
+	        ', '
+	    ) FILTER (WHERE cp.id IS NOT NULL AND cp.phone_number IS NOT NULL),
+	    ''
+	) AS phone_no,
+    
+    -- Tags as array
+    COALESCE(
+        array_agg(DISTINCT ct.tag ORDER BY ct.tag)
+        FILTER (WHERE ct.tag IS NOT NULL),
+        ARRAY[]::text[]
+    ) AS tags,
+    
+    -- Locations as JSONB
+    COALESCE(
+        jsonb_agg(
+            DISTINCT jsonb_build_object(
+                'id', cl.id,
+                'name', cl.name
+            )
+        ) FILTER (WHERE cl.id IS NOT NULL),
+        '[]'::jsonb
+    ) AS locations
+FROM user_schema.contacts c
+LEFT JOIN user_schema.contact_phone_no cp 
+    ON c.id = cp.contact_id 
+    AND cp.status = 'active'
+LEFT JOIN user_schema.contact_tags ct 
+    ON c.id = ct.contact_id 
+    AND ct.status = 'active'
+LEFT JOIN user_schema.contact_locations cl 
+    ON c.id = cl.contact_id 
+    AND cl.status = 'active'
+WHERE c.status NOT IN ('DELETED', 'DRAFT')
+GROUP BY 
+    c.id,
+    c.contact_id,
+    c.name,
+    c.email,
+    c.tax_number,
+    c.status,
+    c.created_at,
+    c.updated_at,
+    c.created_by,
+    c.updated_by,
+    c.workspace_id,
+    c.tenant_id,
+    c.company_id;
+
+-- Create indexes
+CREATE UNIQUE INDEX idx_mv_contacts_pk ON public.mv_contacts(id);
+CREATE UNIQUE INDEX idx_mv_contacts_contact_id ON public.mv_contacts(contact_id, workspace_id);
+CREATE INDEX idx_mv_contacts_tenant_workspace ON public.mv_contacts(tenant_id, workspace_id);
+CREATE INDEX idx_mv_contacts_email ON public.mv_contacts(email, workspace_id);
+CREATE INDEX idx_mv_contacts_name ON public.mv_contacts(name, workspace_id);
+CREATE INDEX idx_mv_contacts_company ON public.mv_contacts(company_id, workspace_id);
+CREATE INDEX idx_mv_contacts_status ON public.mv_contacts(status);
+CREATE INDEX idx_mv_contacts_created_at ON public.mv_contacts(created_at);
+CREATE INDEX idx_mv_contacts_phone_no_gin ON public.mv_contacts USING gin(to_tsvector('simple', phone_no));
+CREATE INDEX idx_mv_contacts_tags_gin ON public.mv_contacts USING gin(tags);

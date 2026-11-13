@@ -1,0 +1,13 @@
+CREATE MATERIALIZED VIEW mv_contact_tags_agg AS
+SELECT
+    t.contact_id,
+    COUNT(DISTINCT t.id) AS tags_count,
+    string_agg(
+        DISTINCT t.tag,
+        ', '
+        ORDER BY t.tag
+    ) AS tags,
+    array_agg(DISTINCT t.id ORDER BY t.id) AS tag_ids -- For filtering
+FROM user_schema.contact_tags t
+WHERE t.status = 'active'
+GROUP BY t.contact_id;

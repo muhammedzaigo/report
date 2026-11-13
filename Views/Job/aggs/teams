@@ -1,0 +1,21 @@
+CREATE TYPE public.teamstatusenum AS ENUM (
+    'DELETED',
+    'ACTIVE'
+);
+
+
+CREATE MATERIALIZED  VIEW public.mv_job_teams_agg AS
+SELECT 
+    jat.job_id,
+    COUNT(*) as team_count,
+    string_agg(t.name, ', ' ORDER BY t.name) as team_names,
+    jsonb_agg(
+        jsonb_build_object(
+            'team_id', t.id,
+            'team_name', t.name
+        ) ORDER BY t.name
+    ) as teams_detail
+FROM job_schema.job_assigned_teams jat
+INNER JOIN user_schema.teams t ON jat.team_id = t.id
+WHERE jat.status = 'active'
+GROUP BY jat.job_id;

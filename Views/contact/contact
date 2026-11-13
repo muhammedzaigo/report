@@ -1,0 +1,38 @@
+CREATE OR REPLACE VIEW vw_contact_report AS
+SELECT
+    c.id            AS contact_id,
+    c.contact_id    AS contact_code,
+    c.name,
+    c.email,
+    c.tax_number,
+    c.status,
+
+    ph.phone_numbers,
+    tg.tags,
+    cf.custom_fields,
+    loc.locations,
+
+    -- Created by user
+    c.created_by,
+    created_user.name AS created_by_name,
+	c.updated_by,
+	updated_user.name AS updated_by_name
+	
+FROM user_schema.contacts c
+
+LEFT JOIN vw_contact_phone_no_agg ph
+    ON ph.contact_id = c.id
+
+LEFT JOIN vw_contact_tags_agg tg
+    ON tg.contact_id = c.id
+
+LEFT JOIN vw_contact_customfields_agg cf
+    ON cf.contact_id = c.id
+
+LEFT JOIN vw_contact_locations_agg loc
+    ON loc.contact_id = c.id
+
+LEFT JOIN user_schema.users created_user ON c.created_by = created_user.id
+LEFT JOIN user_schema.users updated_user ON c.updated_by = updated_user.id
+
+WHERE c.company_id IS NULL;
