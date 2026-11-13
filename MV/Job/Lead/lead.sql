@@ -265,3 +265,13 @@ ON public.mv_leads(updated_at);
 CREATE INDEX idx_mv_leads_tags_gin
 ON public.mv_leads
 USING gin (tags);
+
+
+
+-- GRANT USAGE ON SCHEMA job_schema TO reporting_user;
+
+-- GRANT SELECT ON job_schema.leads TO reporting_user;
+-- RESET ROLE;
+-- GRANT USAGE ON SCHEMA job_schema TO reporting_user;
+
+-- GRANT SELECT ON job_schema.lead_defaultfield_option TO reporting_user;

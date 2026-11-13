@@ -35,13 +35,27 @@ SELECT
     created_user.name AS created_by_name,
     updated_user.name AS updated_by_name,
     -- Custom Fields from lateral join
-    COALESCE(cf_agg.custom_fields, '[]'::jsonb) AS custom_fields
+    COALESCE(cf_agg.custom_fields, '[]'::jsonb) AS custom_fields,
+
+    amc_servies.amc_service_names,
+    amc_servies.amc_service_ids,
+    amc_servies.amc_services,
+    
+    amc_assets.amc_asset_names,
+    amc_assets.amc_asset_ids,
+    amc_assets.amc_assets
+
 FROM job_schema.amcs a
 LEFT JOIN user_schema.companies comp ON a.company_id = comp.id::text
 LEFT JOIN user_schema.contacts cont ON a.contact_id = cont.id::text
 LEFT JOIN user_schema.locations loc ON a.location_id = loc.id::text
 LEFT JOIN user_schema.users created_user ON a.created_by = created_user.id
 LEFT JOIN user_schema.users updated_user ON a.updated_by = updated_user.id
+
+LEFT JOIN public.mv_amc_services_agg amc_servies ON amc_servies.amc_id = a.id
+LEFT JOIN public.mv_amc_assets_agg amc_assets ON amc_assets.amc_id = a.id
+
+
 LEFT JOIN LATERAL (
     SELECT jsonb_agg(jsonb_build_object(
         'id', cf.id,
@@ -69,7 +83,13 @@ GROUP BY
     a.prefix, a.number, a.amc_location, a.description, a.amc_type, a.value,  a.no_of_visit, a.contract, a.reminder, a.start_date, a.expiry_date,
     a.created_at, a.updated_at, a.created_by, a.updated_by,
     a.workspace_id, a.tenant_id, created_user.name, updated_user.name,
-    cf_agg.custom_fields;
+    cf_agg.custom_fields,
+    amc_servies.amc_service_names,
+    amc_servies.amc_service_ids,
+    amc_servies.amc_services,
+    amc_assets.amc_asset_names,
+    amc_assets.amc_asset_ids,
+    amc_assets.amc_assets;
 
 -- Recommended: Add a unique index to allow concurrent refresh
 CREATE UNIQUE INDEX idx_mv_amcs_id ON public.mv_amcs (id);
