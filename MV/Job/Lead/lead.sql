@@ -48,6 +48,12 @@ SELECT
     ls.option AS lead_status_name,
     ls.color_code AS lead_status_color,
 
+    /* PIPELINE */
+    l.pipeline_setting_id,
+    pipeline.name AS pipeline_name,
+    l.pipeline_stage_id,
+    pipeline_stage.name AS pipeline_stage_name,
+
     /* FOLLOW UP */
     l.follow_up_date,
     l.follow_up_time,
@@ -79,6 +85,9 @@ SELECT
         FILTER (WHERE jt.tag IS NOT NULL),
         ARRAY[]::text[]
     ) AS tags,
+
+    /* ACTIVE FOLLOWUP DATES */
+    COALESCE(fu_agg.active_followup_dates, ARRAY[]::date[]) AS active_followup_dates,
 
     /* CUSTOM FIELDS */
     COALESCE(cf_agg.custom_fields, '[]'::jsonb) AS custom_fields
@@ -117,6 +126,13 @@ LEFT JOIN user_schema.users updated_user
 LEFT JOIN job_schema.lead_tags jt
     ON jt.lead_id = l.id
 
+/* PIPELINE */
+LEFT JOIN job_schema.lead_settings_pipelines pipeline
+    ON pipeline.id = l.pipeline_setting_id
+
+LEFT JOIN job_schema.lead_settings_pipeline_stages pipeline_stage
+    ON pipeline_stage.id = l.pipeline_stage_id
+
 /* forms */
 LEFT JOIN public.mv_lead_forms_agg forms
     ON forms.lead_id = l.id
@@ -144,6 +160,21 @@ LEFT JOIN LATERAL (
     WHERE cf.job_id = l.id
 ) cf_agg ON true
 
+/* ACTIVE FOLLOWUP DATES (LATERAL) */
+LEFT JOIN LATERAL (
+    SELECT array_agg(
+        fu.date
+        ORDER BY
+            CASE WHEN fu.date >= CURRENT_DATE THEN 0 ELSE 1 END,
+            fu.date
+    ) AS active_followup_dates
+    FROM job_schema.followups fu
+    WHERE fu.lead_id = l.id
+      AND fu.status = 'active'
+      AND fu.is_followup_completed = false
+      AND fu.date IS NOT NULL
+) fu_agg ON true
+
 WHERE l.status NOT IN ('deleted', 'draft')
 
 GROUP BY
@@ -170,6 +201,10 @@ GROUP BY
     l.lead_status_id,
     ls.option,
     ls.color_code,
+    l.pipeline_setting_id,
+    pipeline.name,
+    l.pipeline_stage_id,
+    pipeline_stage.name,
     l.follow_up_date,
     l.follow_up_time,
     l.lead_owner_id,
@@ -188,7 +223,8 @@ GROUP BY
     forms.form_ids,
     forms.assign_forms,
     cf_agg.custom_fields,
-    
+    fu_agg.active_followup_dates,
+
     l.created_location,
     l.created_latitude,
     l.created_longitude,
