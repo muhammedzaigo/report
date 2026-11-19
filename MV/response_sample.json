@@ -1,0 +1,1698 @@
+{
+    "header": {
+        "base_header": {
+            "customer": {
+                "header": "Name",
+                "field_type": "text",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "job_no": {
+                "header": "Job no",
+                "field_type": "text",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "job_status": {
+                "header": "Status",
+                "field_type": "text",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "location_id": {
+                "header": "Location",
+                "field_type": "single_dropdown",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "location": {
+                "header": "Job Location",
+                "field_type": "location",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "business_unit_id": {
+                "header": "Business unit",
+                "field_type": "single_dropdown",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "service_type_id": {
+                "header": "Service type",
+                "field_type": "single_dropdown",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "priority_id": {
+                "header": "Priority",
+                "field_type": "single_dropdown",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "title": {
+                "header": "Title",
+                "field_type": "text",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "tags": {
+                "header": "Tags",
+                "field_type": "tag",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "description": {
+                "header": "Description",
+                "field_type": "textarea",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "assign_to": {
+                "header": "Assign to",
+                "field_type": "radio",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "checklists": {
+                "header": "Checklist",
+                "field_type": "multiple_dropdown",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "job_value": {
+                "header": "Job value",
+                "field_type": "amount",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "amc_id": {
+                "header": "AMC",
+                "field_type": "single_dropdown",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "amc_asset_id_or_service_id": {
+                "header": "Asset/Service",
+                "field_type": "multiple_dropdown",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "asset_id": {
+                "header": "Asset",
+                "field_type": "multiple_dropdown",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "tracking_times": {
+                "header": "Time Spent",
+                "field_type": "",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "tracking_costs": {
+                "header": "Other Cost",
+                "field_type": "",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "estimated_time": {
+                "header": "Estimated Time",
+                "field_type": "number",
+                "is_sortable": true,
+                "is_estimated_minutes": true,
+                "is_estimated_hours": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "job_start_date": {
+                "header": "Start date",
+                "field_type": "date",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "job_start_time": {
+                "header": "Start Time",
+                "field_type": "date",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "job_end_date": {
+                "header": "Due date",
+                "field_type": "date",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "job_end_time": {
+                "header": "End Time",
+                "field_type": "date",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "actual_time_spent": {
+                "header": "Actual Time Spent",
+                "field_type": "date",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "created_at": {
+                "header": "Created on",
+                "field_type": "date",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "updated_at": {
+                "header": "Last Updated on",
+                "field_type": "date",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "created_by": {
+                "header": "Created by",
+                "field_type": "text",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "updated_by": {
+                "header": "Updated by",
+                "field_type": "text",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "serial_job_no": {
+                "header": "Serial no",
+                "field_type": "text",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "is_revisit": {
+                "header": "Revisit",
+                "field_type": "text",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "asset_count": {
+                "header": "Asset Count",
+                "field_type": "number",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "revisit_count": {
+                "header": "Revisit Count",
+                "field_type": "number",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "service_category": {
+                "header": "Service Category",
+                "field_type": "text",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "job_created_from": {
+                "header": "Created From",
+                "field_type": "text",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "type_of_job": {
+                "header": "Type of Job",
+                "field_type": "text",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "actual_start_date": {
+                "header": "Job Actual Start Date",
+                "field_type": "date",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "actual_start_time": {
+                "header": "Job Actual Start Time",
+                "field_type": "time",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "actual_end_date": {
+                "header": "Job Actual End Date",
+                "field_type": "date",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "actual_end_time": {
+                "header": "Job Actual End Time",
+                "field_type": "time",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "actual_completed_date": {
+                "header": "Completed Date",
+                "field_type": "date",
+                "is_sortable": true,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "serial_number": {
+                "header": "Serial Number",
+                "field_type": "text",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "model_number": {
+                "header": "Model Number",
+                "field_type": "text",
+                "is_sortable": false,
+                "field": "default",
+                "module_name": "Job"
+            },
+            "bffab57e-d177-4bd2-825b-3bb385a37436": {
+                "header": "Text",
+                "field_type": "text",
+                "is_sortable": true,
+                "field": "custom",
+                "module_name": "Job"
+            },
+            "58bd247e-d49a-43d8-a1b1-1428caff4432": {
+                "header": "Option",
+                "field_type": "single_dropdown",
+                "is_sortable": false,
+                "field": "custom",
+                "module_name": "Job"
+            },
+            "e53faf21-d514-4120-8c16-728746c19f75": {
+                "header": "Editor",
+                "field_type": "editor",
+                "is_sortable": false,
+                "field": "custom",
+                "module_name": "Job"
+            },
+            "1439d854-6938-4bdd-966c-f8925db748dd": {
+                "header": "Add-on field Text",
+                "field_type": "text",
+                "is_sortable": true,
+                "field": "add_on",
+                "module_name": "Job"
+            },
+            "ac1678bc-b069-4298-83a1-79068f483b70": {
+                "header": "Add-on field Option",
+                "field_type": "single_dropdown",
+                "is_sortable": false,
+                "field": "add_on",
+                "module_name": "Job"
+            },
+            "271ee07d-8d28-49a9-8714-a2f43baa5449": {
+                "header": "Add-on field Editor",
+                "field_type": "editor",
+                "is_sortable": false,
+                "field": "add_on",
+                "module_name": "Job"
+            },
+            "b24ef7ce-2e5d-4c6f-9950-fd3bdde1c60d": {
+                "header": "Booking Text",
+                "field_type": "text",
+                "is_sortable": true,
+                "field": "job_form",
+                "module_name": "Job"
+            },
+            "3bd18e63-d9d8-43db-91e4-6ef4db7d3172": {
+                "header": "Booking Option",
+                "field_type": "single_dropdown",
+                "is_sortable": false,
+                "field": "job_form",
+                "module_name": "Job"
+            },
+            "cf8202ed-2dfd-4659-993e-f8fb9d13f460": {
+                "header": "Booking Editior",
+                "field_type": "editor",
+                "is_sortable": false,
+                "field": "job_form",
+                "module_name": "Job"
+            }
+        },
+        "modules": {
+            "Contact": {
+                "name": {
+                    "header": "Full name",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Contact"
+                },
+                "contact_id": {
+                    "header": "Contact ID",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Contact"
+                },
+                "email": {
+                    "header": "Email",
+                    "field_type": "email",
+                    "is_sortable": true,
+                    "module_name": "Contact"
+                },
+                "phone_no": {
+                    "header": "Contact number",
+                    "field_type": "phone",
+                    "module_name": "Contact"
+                },
+                "tax_number": {
+                    "header": "Tax number",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Contact"
+                },
+                "tags": {
+                    "header": "Tags",
+                    "field_type": "tag",
+                    "module_name": "Contact"
+                },
+                "opening_balance": {
+                    "header": "Opening balance",
+                    "field_type": "amount",
+                    "module_name": "Contact"
+                },
+                "credit": {
+                    "header": "Credit",
+                    "field_type": "amount",
+                    "module_name": "Contact"
+                },
+                "debit": {
+                    "header": "Debit",
+                    "field_type": "amount",
+                    "module_name": "Contact"
+                },
+                "associate_users": {
+                    "header": "Associate user",
+                    "field_type": "multiple_dropdown",
+                    "module_name": "Contact"
+                },
+                "dfbee22a-ffbe-4855-925a-a03739e53005": {
+                    "header": "Text",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Contact"
+                },
+                "0f3ac7f4-94ed-4341-8143-800a4004a073": {
+                    "header": "Option",
+                    "field_type": "single_dropdown",
+                    "module_name": "Contact"
+                },
+                "395e3035-be38-4df9-b13b-a70005e60472": {
+                    "header": "Editor",
+                    "field_type": "editor",
+                    "module_name": "Contact"
+                },
+                "status": {
+                    "header": "Status",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Contact"
+                },
+                "locations": {
+                    "header": "Locations",
+                    "field_type": "multiple_dropdown",
+                    "module_name": "Contact"
+                },
+                "created_at": {
+                    "header": "Created on",
+                    "field_type": "date",
+                    "is_sortable": true,
+                    "module_name": "Contact"
+                },
+                "updated_at": {
+                    "header": "Last Updated on",
+                    "field_type": "date",
+                    "is_sortable": true,
+                    "module_name": "Contact"
+                },
+                "created_by": {
+                    "header": "Created by",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Contact"
+                },
+                "updated_by": {
+                    "header": "Updated by",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Contact"
+                }
+            },
+            "Company": {
+                "name": {
+                    "header": "Company name",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Company"
+                },
+                "company_id": {
+                    "header": "Company ID",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Company"
+                },
+                "email": {
+                    "header": "Email",
+                    "field_type": "email",
+                    "is_sortable": true,
+                    "module_name": "Company"
+                },
+                "website": {
+                    "header": "Website",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Company"
+                },
+                "phone_no": {
+                    "header": "Contact number",
+                    "field_type": "phone",
+                    "module_name": "Company"
+                },
+                "tax_number": {
+                    "header": "Tax number",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Company"
+                },
+                "tags": {
+                    "header": "Tags",
+                    "field_type": "tag",
+                    "module_name": "Company"
+                },
+                "opening_balance": {
+                    "header": "Opening balance",
+                    "field_type": "amount",
+                    "module_name": "Company"
+                },
+                "credit": {
+                    "header": "Credit",
+                    "field_type": "amount",
+                    "module_name": "Company"
+                },
+                "debit": {
+                    "header": "Debit",
+                    "field_type": "amount",
+                    "module_name": "Company"
+                },
+                "associate_users": {
+                    "header": "Associate user",
+                    "field_type": "multiple_dropdown",
+                    "module_name": "Company"
+                },
+                "64b4a838-e750-42d0-a72e-e45c39222a33": {
+                    "header": "Text",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Company"
+                },
+                "792278ac-bd14-4d06-b367-b2a45099dcfe": {
+                    "header": "Option",
+                    "field_type": "single_dropdown",
+                    "module_name": "Company"
+                },
+                "0e64e1ea-bc5f-4c2a-9a20-e9b4a158e924": {
+                    "header": "Editor",
+                    "field_type": "editor",
+                    "module_name": "Company"
+                },
+                "status": {
+                    "header": "Status",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Company"
+                },
+                "locations": {
+                    "header": "Locations",
+                    "field_type": "multiple_dropdown",
+                    "module_name": "Company"
+                },
+                "contacts": {
+                    "header": "Contacts",
+                    "field_type": "multiple_dropdown",
+                    "module_name": "Company"
+                },
+                "created_at": {
+                    "header": "Created on",
+                    "field_type": "date",
+                    "is_sortable": true,
+                    "module_name": "Company"
+                },
+                "updated_at": {
+                    "header": "Last Updated on",
+                    "field_type": "date",
+                    "is_sortable": true,
+                    "module_name": "Company"
+                },
+                "created_by": {
+                    "header": "Created by",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Company"
+                },
+                "updated_by": {
+                    "header": "Updated by",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Company"
+                }
+            },
+            "Lead": {
+                "name": {
+                    "header": "Name",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Lead"
+                },
+                "customer": {
+                    "header": "Customer",
+                    "field_type": "text",
+                    "is_sortable": false,
+                    "module_name": "Lead"
+                },
+                "lead_no": {
+                    "header": "Lead ID",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Lead"
+                },
+                "pipeline_setting_id": {
+                    "header": "Pipeline",
+                    "field_type": "text",
+                    "is_sortable": false,
+                    "module_name": "Lead"
+                },
+                "location_id": {
+                    "header": "Location",
+                    "field_type": "single_dropdown",
+                    "is_sortable": false,
+                    "module_name": "Lead"
+                },
+                "phone_number": {
+                    "header": "Contact number",
+                    "field_type": "phone",
+                    "is_sortable": true,
+                    "module_name": "Lead"
+                },
+                "email": {
+                    "header": "Email",
+                    "field_type": "email",
+                    "is_sortable": true,
+                    "module_name": "Lead"
+                },
+                "lead_owner_id": {
+                    "header": "Lead owner",
+                    "field_type": "single_dropdown",
+                    "is_sortable": false,
+                    "module_name": "Lead"
+                },
+                "priority_id": {
+                    "header": "Priority",
+                    "field_type": "single_dropdown",
+                    "is_sortable": false,
+                    "module_name": "Lead"
+                },
+                "lead_value": {
+                    "header": "Lead value",
+                    "field_type": "amount",
+                    "is_sortable": true,
+                    "module_name": "Lead"
+                },
+                "assign_to_id": {
+                    "header": "Assign to",
+                    "field_type": "single_dropdown",
+                    "is_sortable": false,
+                    "module_name": "Lead"
+                },
+                "tags": {
+                    "header": "Tags",
+                    "field_type": "tag",
+                    "is_sortable": false,
+                    "module_name": "Lead"
+                },
+                "description": {
+                    "header": "Description",
+                    "field_type": "textarea",
+                    "is_sortable": true,
+                    "module_name": "Lead"
+                },
+                "forms": {
+                    "header": "Forms",
+                    "field_type": "multiple_dropdown",
+                    "is_sortable": false,
+                    "module_name": "Lead"
+                },
+                "tracking_parts": {
+                    "header": "Add parts/services",
+                    "field_type": "",
+                    "is_sortable": false,
+                    "module_name": "Lead"
+                },
+                "lead_status_id": {
+                    "header": "Status",
+                    "field_type": "single_dropdown",
+                    "is_sortable": false,
+                    "module_name": "Lead"
+                },
+                "lead_location": {
+                    "header": "Lead Location",
+                    "field_type": "location",
+                    "is_sortable": false,
+                    "module_name": "Lead"
+                },
+                "pipeline_stage_id": {
+                    "header": "Pipeline Stage",
+                    "field_type": "text",
+                    "is_sortable": false,
+                    "module_name": "Lead"
+                },
+                "last_comment": {
+                    "header": "Comment",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Lead"
+                },
+                "created_at": {
+                    "header": "Created date",
+                    "field_type": "date",
+                    "is_sortable": true,
+                    "module_name": "Lead"
+                },
+                "created_at_time": {
+                    "header": "Created time",
+                    "field_type": "time",
+                    "is_sortable": true,
+                    "module_name": "Lead"
+                },
+                "updated_at": {
+                    "header": "Last Updated on",
+                    "field_type": "date",
+                    "is_sortable": true,
+                    "module_name": "Lead"
+                },
+                "created_by": {
+                    "header": "Created by",
+                    "field_type": "text",
+                    "is_sortable": false,
+                    "module_name": "Lead"
+                },
+                "updated_by": {
+                    "header": "Updated by",
+                    "field_type": "text",
+                    "is_sortable": false,
+                    "module_name": "Lead"
+                },
+                "follow_up_date": {
+                    "header": "Follow-up Date",
+                    "field_type": "text",
+                    "is_sortable": false,
+                    "module_name": "Lead"
+                }
+            },
+            "Asset": {
+                "name": {
+                    "header": "Asset name",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Asset"
+                },
+                "id": {
+                    "header": "Asset ID",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Asset"
+                },
+                "customer": {
+                    "header": "Customer",
+                    "field_type": "text",
+                    "is_sortable": false,
+                    "module_name": "Asset"
+                },
+                "status": {
+                    "header": "Status",
+                    "field_type": "text",
+                    "is_sortable": false,
+                    "module_name": "Asset"
+                },
+                "location_id": {
+                    "header": "Location",
+                    "field_type": "single_dropdown",
+                    "is_sortable": false,
+                    "module_name": "Asset"
+                },
+                "asset_location": {
+                    "header": "Asset Location",
+                    "field_type": "location",
+                    "is_sortable": true,
+                    "module_name": "Asset"
+                },
+                "description": {
+                    "header": "Description",
+                    "field_type": "textarea",
+                    "is_sortable": true,
+                    "module_name": "Asset"
+                },
+                "serial_no": {
+                    "header": "Serial Number",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Asset"
+                },
+                "model_no": {
+                    "header": "Model Number",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Asset"
+                },
+                "manufacturer": {
+                    "header": "Manufacturer",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Asset"
+                },
+                "year": {
+                    "header": "Year",
+                    "field_type": "number",
+                    "is_sortable": true,
+                    "module_name": "Asset"
+                },
+                "asset_type_id": {
+                    "header": "Asset Type",
+                    "field_type": "single_dropdown",
+                    "is_sortable": false,
+                    "module_name": "Asset"
+                },
+                "installation_date": {
+                    "header": "Installation Date",
+                    "field_type": "date",
+                    "is_sortable": false,
+                    "module_name": "Asset"
+                },
+                "warranty_expiry_date": {
+                    "header": "Warranty Expiry Date",
+                    "field_type": "date",
+                    "is_sortable": false,
+                    "module_name": "Asset"
+                },
+                "criticality_id": {
+                    "header": "Criticality",
+                    "field_type": "single_dropdown",
+                    "is_sortable": false,
+                    "module_name": "Asset"
+                },
+                "created_at": {
+                    "header": "Created on",
+                    "field_type": "date",
+                    "is_sortable": true,
+                    "module_name": "Asset"
+                },
+                "updated_at": {
+                    "header": "Last Updated on",
+                    "field_type": "date",
+                    "is_sortable": true,
+                    "module_name": "Asset"
+                },
+                "created_by": {
+                    "header": "Created by",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Asset"
+                },
+                "updated_by": {
+                    "header": "Updated by",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "Asset"
+                }
+            },
+            "AMC": {
+                "customer": {
+                    "header": "Customer",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "field": "default",
+                    "module_name": "AMC"
+                },
+                "id": {
+                    "header": "ID",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "field": "default",
+                    "module_name": "AMC"
+                },
+                "status": {
+                    "header": "Status",
+                    "field_type": "text",
+                    "is_sortable": false,
+                    "field": "default",
+                    "module_name": "AMC"
+                },
+                "title": {
+                    "header": "Title",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "field": "default",
+                    "module_name": "AMC"
+                },
+                "location_id": {
+                    "header": "Location",
+                    "field_type": "single_dropdown",
+                    "is_sortable": false,
+                    "field": "default",
+                    "module_name": "AMC"
+                },
+                "amc_type": {
+                    "header": "AMC Type",
+                    "field_type": "single_dropdown",
+                    "is_sortable": false,
+                    "field": "default",
+                    "module_name": "AMC"
+                },
+                "description": {
+                    "header": "Description",
+                    "field_type": "textarea",
+                    "is_sortable": true,
+                    "field": "default",
+                    "module_name": "AMC"
+                },
+                "value": {
+                    "header": "Value",
+                    "field_type": "amount",
+                    "is_sortable": false,
+                    "field": "default",
+                    "module_name": "AMC"
+                },
+                "no_of_visit": {
+                    "header": "No. of visits",
+                    "field_type": "number",
+                    "is_sortable": false,
+                    "field": "default",
+                    "module_name": "AMC"
+                },
+                "start_date": {
+                    "header": "Start date",
+                    "field_type": "date",
+                    "is_sortable": true,
+                    "field": "default",
+                    "module_name": "AMC"
+                },
+                "expiry_date": {
+                    "header": "Expiry Date",
+                    "field_type": "date",
+                    "is_sortable": true,
+                    "field": "default",
+                    "module_name": "AMC"
+                },
+                "asset_or_service": {
+                    "header": "Asset/Service",
+                    "field_type": "multiple_dropdown",
+                    "is_sortable": true,
+                    "module_name": "AMC"
+                },
+                "created_at": {
+                    "header": "Created on",
+                    "field_type": "date",
+                    "is_sortable": true,
+                    "module_name": "AMC"
+                },
+                "updated_at": {
+                    "header": "Last Updated on",
+                    "field_type": "date",
+                    "is_sortable": true,
+                    "module_name": "AMC"
+                },
+                "created_by": {
+                    "header": "Created by",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "AMC"
+                },
+                "updated_by": {
+                    "header": "Updated by",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "AMC"
+                }
+            },
+            "User": {
+                "name": {
+                    "header": "Full name",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "User"
+                },
+                "user_name": {
+                    "header": "User name",
+                    "field_type": "text",
+                    "module_name": "User"
+                },
+                "email": {
+                    "header": "Email address",
+                    "field_type": "email",
+                    "is_sortable": true,
+                    "module_name": "User"
+                },
+                "phone_number": {
+                    "header": "Mobile number",
+                    "field_type": "phone",
+                    "is_sortable": true,
+                    "module_name": "User"
+                },
+                "tags": {
+                    "header": "Tags",
+                    "field_type": "tag",
+                    "module_name": "User"
+                },
+                "reporting_manager_id": {
+                    "header": "Reporting Manager",
+                    "field_type": "single_dropdown",
+                    "module_name": "User"
+                },
+                "sales_target": {
+                    "header": "Sales Target",
+                    "field_type": "amount",
+                    "module_name": "User"
+                },
+                "service_target": {
+                    "header": "Service Target",
+                    "field_type": "amount",
+                    "module_name": "User"
+                },
+                "workspace": {
+                    "header": "workspaces",
+                    "field_type": "multiple_dropdown",
+                    "module_name": "User"
+                },
+                "status": {
+                    "header": "Status",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "User"
+                },
+                "account_type": {
+                    "header": "Role",
+                    "field_type": "single_dropdown",
+                    "is_sortable": true,
+                    "module_name": "User"
+                },
+                "team": {
+                    "header": "Teams",
+                    "field_type": "multiple_dropdown",
+                    "module_name": "User"
+                },
+                "location": {
+                    "header": "Locations",
+                    "field_type": "multiple_dropdown",
+                    "module_name": "User"
+                },
+                "no_of_reportees": {
+                    "header": "No. of Reportees",
+                    "field_type": "number",
+                    "module_name": "User"
+                },
+                "created_at": {
+                    "header": "Created on",
+                    "field_type": "date",
+                    "is_sortable": true,
+                    "module_name": "User"
+                },
+                "updated_at": {
+                    "header": "Last Updated on",
+                    "field_type": "date",
+                    "is_sortable": true,
+                    "module_name": "User"
+                },
+                "created_by": {
+                    "header": "Created by",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "User"
+                },
+                "updated_by": {
+                    "header": "Updated by",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "User"
+                },
+                "6e4fc15c-e594-4f2b-bfea-3e471b13b3f4": {
+                    "header": "Text",
+                    "field_type": "text",
+                    "is_sortable": true,
+                    "module_name": "User"
+                },
+                "4c0ee446-0837-470a-a0c7-1defff16d11a": {
+                    "header": "Option",
+                    "field_type": "single_dropdown",
+                    "module_name": "User"
+                },
+                "fbb2baa6-b369-40cd-9d79-713764c2c56b": {
+                    "header": "Editor",
+                    "field_type": "editor",
+                    "module_name": "User"
+                }
+            }
+        }
+    },
+    "data": [
+        {
+            "metadata": {
+                "id": "03c3ef18-0836-4590-a302-810b95d98ce6",
+                "status": "active"
+            },
+            "base_values": {
+                "customer": "Macon Golden",
+                "job_no": "JOBZ 010",
+                "job_status": "",
+                "location_id": "Roary Bell Location",
+                "location": "",
+                "business_unit_id": "",
+                "service_type_id": "",
+                "priority_id": "Low",
+                "title": "",
+                "tags": [],
+                "description": "",
+                "assign_to": [
+                    "Yet to Assign"
+                ],
+                "checklists": "",
+                "job_value": "",
+                "amc_id": "",
+                "amc_asset_id_or_service_id": "",
+                "asset_id": "",
+                "tracking_times": [],
+                "tracking_costs": [],
+                "estimated_time": "01:00",
+                "job_start_date": "",
+                "job_start_time": "",
+                "job_end_date": "Yet to Schedule",
+                "job_end_time": "",
+                "actual_time_spent": "00:01:00",
+                "created_at": "06-11-2026",
+                "updated_at": "10-11-2026",
+                "created_by": "Amelia Stevenson",
+                "updated_by": "Amelia Stevenson",
+                "serial_job_no": "",
+                "is_revisit": "",
+                "asset_count": "",
+                "revisit_count": "",
+                "service_category": "General Service",
+                "job_created_from": "Internal",
+                "type_of_job": "",
+                "actual_start_date": "",
+                "actual_start_time": "",
+                "actual_end_date": "",
+                "actual_end_time": "",
+                "actual_completed_date": "",
+                "serial_number": "",
+                "model_number": "",
+                "bffab57e-d177-4bd2-825b-3bb385a37436": "",
+                "58bd247e-d49a-43d8-a1b1-1428caff4432": [],
+                "e53faf21-d514-4120-8c16-728746c19f75": "",
+                "1439d854-6938-4bdd-966c-f8925db748dd": "",
+                "ac1678bc-b069-4298-83a1-79068f483b70": "",
+                "271ee07d-8d28-49a9-8714-a2f43baa5449": "",
+                "b24ef7ce-2e5d-4c6f-9950-fd3bdde1c60d": "",
+                "3bd18e63-d9d8-43db-91e4-6ef4db7d3172": "",
+                "cf8202ed-2dfd-4659-993e-f8fb9d13f460": ""
+            },
+            "modules": {
+                "Contact": [
+                    {
+                        "name": "Macon Golden",
+                        "contact_id": "001",
+                        "email": "bibod@yopmail.com",
+                        "phone_no": [
+                            "+1 11663936635",
+                            "+1 11663936636"
+                        ],
+                        "tax_number": "361",
+                        "tags": [
+                            "dvhfd",
+                            "sdgbsg"
+                        ],
+                        "opening_balance": 7.0,
+                        "credit": 65.0,
+                        "debit": 19.0,
+                        "associate_users": [
+                            "Amelia Stevenson",
+                            "Ayanna Branch"
+                        ],
+                        "dfbee22a-ffbe-4855-925a-a03739e53005": "djgDGJS",
+                        "0f3ac7f4-94ed-4341-8143-800a4004a073": [
+                            "C A"
+                        ],
+                        "395e3035-be38-4df9-b13b-a70005e60472": "<p>dsfslgs</p>",
+                        "status": null,
+                        "locations": [
+                            "Quamar Riddle",
+                            "dssdw"
+                        ],
+                        "created_at": "03-11-2026",
+                        "updated_at": "03-11-2026",
+                        "created_by": "Amelia Stevenson",
+                        "updated_by": "Amelia Stevenson"
+                    }
+                ],
+                "Company": [],
+                "Lead": [],
+                "Asset": [],
+                "AMC": [],
+                "User": []
+            }
+        },
+        {
+            "metadata": {
+                "id": "20dd8281-40f8-49e3-b510-7ef34a1f2c7c",
+                "status": "active"
+            },
+            "base_values": {
+                "customer": "Macon Golden",
+                "job_no": "JOBZ 011",
+                "job_status": "",
+                "location_id": "Roary Bell Location",
+                "location": "",
+                "business_unit_id": "",
+                "service_type_id": "",
+                "priority_id": "Low",
+                "title": "",
+                "tags": [],
+                "description": "",
+                "assign_to": "Amelia Stevenson",
+                "checklists": "",
+                "job_value": "",
+                "amc_id": "",
+                "amc_asset_id_or_service_id": "",
+                "asset_id": "",
+                "tracking_times": [],
+                "tracking_costs": [],
+                "estimated_time": "01:00",
+                "job_start_date": "12-11-2026",
+                "job_start_time": "00:00",
+                "job_end_date": "03-12-2026",
+                "job_end_time": "00:00",
+                "actual_time_spent": "00:00:00",
+                "created_at": "06-11-2026",
+                "updated_at": "12-11-2026",
+                "created_by": "Amelia Stevenson",
+                "updated_by": "Amelia Stevenson",
+                "serial_job_no": "",
+                "is_revisit": "",
+                "asset_count": "",
+                "revisit_count": "",
+                "service_category": "General Service",
+                "job_created_from": "Internal",
+                "type_of_job": "",
+                "actual_start_date": "",
+                "actual_start_time": "",
+                "actual_end_date": "",
+                "actual_end_time": "",
+                "actual_completed_date": "",
+                "serial_number": "",
+                "model_number": "",
+                "bffab57e-d177-4bd2-825b-3bb385a37436": null,
+                "58bd247e-d49a-43d8-a1b1-1428caff4432": [],
+                "e53faf21-d514-4120-8c16-728746c19f75": null,
+                "1439d854-6938-4bdd-966c-f8925db748dd": "",
+                "ac1678bc-b069-4298-83a1-79068f483b70": "",
+                "271ee07d-8d28-49a9-8714-a2f43baa5449": "",
+                "b24ef7ce-2e5d-4c6f-9950-fd3bdde1c60d": "",
+                "3bd18e63-d9d8-43db-91e4-6ef4db7d3172": "",
+                "cf8202ed-2dfd-4659-993e-f8fb9d13f460": ""
+            },
+            "modules": {
+                "Contact": [
+                    {
+                        "name": "Macon Golden",
+                        "contact_id": "001",
+                        "email": "bibod@yopmail.com",
+                        "phone_no": [
+                            "+1 11663936635",
+                            "+1 11663936636"
+                        ],
+                        "tax_number": "361",
+                        "tags": [
+                            "dvhfd",
+                            "sdgbsg"
+                        ],
+                        "opening_balance": 7.0,
+                        "credit": 65.0,
+                        "debit": 19.0,
+                        "associate_users": [
+                            "Amelia Stevenson",
+                            "Ayanna Branch"
+                        ],
+                        "dfbee22a-ffbe-4855-925a-a03739e53005": "djgDGJS",
+                        "0f3ac7f4-94ed-4341-8143-800a4004a073": [
+                            "C A"
+                        ],
+                        "395e3035-be38-4df9-b13b-a70005e60472": "<p>dsfslgs</p>",
+                        "status": null,
+                        "locations": [
+                            "Quamar Riddle",
+                            "dssdw"
+                        ],
+                        "created_at": "03-11-2026",
+                        "updated_at": "03-11-2026",
+                        "created_by": "Amelia Stevenson",
+                        "updated_by": "Amelia Stevenson"
+                    }
+                ],
+                "Company": [],
+                "Lead": [],
+                "Asset": [],
+                "AMC": [],
+                "User": []
+            }
+        },
+        {
+            "metadata": {
+                "id": "28db8baa-36ec-4f11-bbcf-de0ede8e103d",
+                "status": "active"
+            },
+            "base_values": {
+                "customer": "Macon Golden",
+                "job_no": "JOBZ 012",
+                "job_status": "",
+                "location_id": "Roary Bell Location",
+                "location": "",
+                "business_unit_id": "",
+                "service_type_id": "",
+                "priority_id": "Low",
+                "title": "",
+                "tags": [],
+                "description": "",
+                "assign_to": "Amelia Stevenson",
+                "checklists": "",
+                "job_value": "",
+                "amc_id": "",
+                "amc_asset_id_or_service_id": "",
+                "asset_id": "",
+                "tracking_times": [],
+                "tracking_costs": [],
+                "estimated_time": "01:00",
+                "job_start_date": "11-11-2026",
+                "job_start_time": "00:15",
+                "job_end_date": "25-11-2026",
+                "job_end_time": "00:15",
+                "actual_time_spent": "00:00:00",
+                "created_at": "06-11-2026",
+                "updated_at": "11-11-2026",
+                "created_by": "Amelia Stevenson",
+                "updated_by": "",
+                "serial_job_no": "",
+                "is_revisit": "",
+                "asset_count": "",
+                "revisit_count": "",
+                "service_category": "General Service",
+                "job_created_from": "Internal",
+                "type_of_job": "",
+                "actual_start_date": "",
+                "actual_start_time": "",
+                "actual_end_date": "",
+                "actual_end_time": "",
+                "actual_completed_date": "",
+                "serial_number": "",
+                "model_number": "",
+                "bffab57e-d177-4bd2-825b-3bb385a37436": null,
+                "58bd247e-d49a-43d8-a1b1-1428caff4432": [],
+                "e53faf21-d514-4120-8c16-728746c19f75": null,
+                "1439d854-6938-4bdd-966c-f8925db748dd": "",
+                "ac1678bc-b069-4298-83a1-79068f483b70": "",
+                "271ee07d-8d28-49a9-8714-a2f43baa5449": "",
+                "b24ef7ce-2e5d-4c6f-9950-fd3bdde1c60d": "",
+                "3bd18e63-d9d8-43db-91e4-6ef4db7d3172": "",
+                "cf8202ed-2dfd-4659-993e-f8fb9d13f460": ""
+            },
+            "modules": {
+                "Contact": [
+                    {
+                        "name": "Macon Golden",
+                        "contact_id": "001",
+                        "email": "bibod@yopmail.com",
+                        "phone_no": [
+                            "+1 11663936635",
+                            "+1 11663936636"
+                        ],
+                        "tax_number": "361",
+                        "tags": [
+                            "dvhfd",
+                            "sdgbsg"
+                        ],
+                        "opening_balance": 7.0,
+                        "credit": 65.0,
+                        "debit": 19.0,
+                        "associate_users": [
+                            "Amelia Stevenson",
+                            "Ayanna Branch"
+                        ],
+                        "dfbee22a-ffbe-4855-925a-a03739e53005": "djgDGJS",
+                        "0f3ac7f4-94ed-4341-8143-800a4004a073": [
+                            "C A"
+                        ],
+                        "395e3035-be38-4df9-b13b-a70005e60472": "<p>dsfslgs</p>",
+                        "status": null,
+                        "locations": [
+                            "Quamar Riddle",
+                            "dssdw"
+                        ],
+                        "created_at": "03-11-2026",
+                        "updated_at": "03-11-2026",
+                        "created_by": "Amelia Stevenson",
+                        "updated_by": "Amelia Stevenson"
+                    }
+                ],
+                "Company": [],
+                "Lead": [],
+                "Asset": [],
+                "AMC": [],
+                "User": []
+            }
+        },
+        {
+            "metadata": {
+                "id": "2f014851-80af-4054-8d26-214e914d7b4d",
+                "status": "active"
+            },
+            "base_values": {
+                "customer": "Macon Golden",
+                "job_no": "JOBZ 013",
+                "job_status": "",
+                "location_id": "Roary Bell Location",
+                "location": "",
+                "business_unit_id": "",
+                "service_type_id": "",
+                "priority_id": "Low",
+                "title": "",
+                "tags": [],
+                "description": "",
+                "assign_to": "Amelia Stevenson",
+                "checklists": "",
+                "job_value": "",
+                "amc_id": "",
+                "amc_asset_id_or_service_id": "",
+                "asset_id": "",
+                "tracking_times": [],
+                "tracking_costs": [],
+                "estimated_time": "01:00",
+                "job_start_date": "",
+                "job_start_time": "",
+                "job_end_date": "Yet to Schedule",
+                "job_end_time": "",
+                "actual_time_spent": "00:00:00",
+                "created_at": "06-11-2026",
+                "updated_at": "11-11-2026",
+                "created_by": "Amelia Stevenson",
+                "updated_by": "Amelia Stevenson",
+                "serial_job_no": "",
+                "is_revisit": "",
+                "asset_count": "",
+                "revisit_count": "",
+                "service_category": "General Service",
+                "job_created_from": "Internal",
+                "type_of_job": "",
+                "actual_start_date": "",
+                "actual_start_time": "",
+                "actual_end_date": "",
+                "actual_end_time": "",
+                "actual_completed_date": "",
+                "serial_number": "",
+                "model_number": "",
+                "bffab57e-d177-4bd2-825b-3bb385a37436": "",
+                "58bd247e-d49a-43d8-a1b1-1428caff4432": [],
+                "e53faf21-d514-4120-8c16-728746c19f75": "",
+                "1439d854-6938-4bdd-966c-f8925db748dd": "",
+                "ac1678bc-b069-4298-83a1-79068f483b70": "",
+                "271ee07d-8d28-49a9-8714-a2f43baa5449": "",
+                "b24ef7ce-2e5d-4c6f-9950-fd3bdde1c60d": "",
+                "3bd18e63-d9d8-43db-91e4-6ef4db7d3172": "",
+                "cf8202ed-2dfd-4659-993e-f8fb9d13f460": ""
+            },
+            "modules": {
+                "Contact": [
+                    {
+                        "name": "Macon Golden",
+                        "contact_id": "001",
+                        "email": "bibod@yopmail.com",
+                        "phone_no": [
+                            "+1 11663936635",
+                            "+1 11663936636"
+                        ],
+                        "tax_number": "361",
+                        "tags": [
+                            "dvhfd",
+                            "sdgbsg"
+                        ],
+                        "opening_balance": 7.0,
+                        "credit": 65.0,
+                        "debit": 19.0,
+                        "associate_users": [
+                            "Amelia Stevenson",
+                            "Ayanna Branch"
+                        ],
+                        "dfbee22a-ffbe-4855-925a-a03739e53005": "djgDGJS",
+                        "0f3ac7f4-94ed-4341-8143-800a4004a073": [
+                            "C A"
+                        ],
+                        "395e3035-be38-4df9-b13b-a70005e60472": "<p>dsfslgs</p>",
+                        "status": null,
+                        "locations": [
+                            "Quamar Riddle",
+                            "dssdw"
+                        ],
+                        "created_at": "03-11-2026",
+                        "updated_at": "03-11-2026",
+                        "created_by": "Amelia Stevenson",
+                        "updated_by": "Amelia Stevenson"
+                    }
+                ],
+                "Company": [],
+                "Lead": [],
+                "Asset": [],
+                "AMC": [],
+                "User": []
+            }
+        },
+        {
+            "metadata": {
+                "id": "39cf9fda-8ab6-4406-81f0-8de837fe0da4",
+                "status": "active"
+            },
+            "base_values": {
+                "customer": "Rina Morrow",
+                "job_no": "JOBZ 018",
+                "job_status": "",
+                "location_id": "Roary Bell Location",
+                "location": "",
+                "business_unit_id": "",
+                "service_type_id": "",
+                "priority_id": "Low",
+                "title": "",
+                "tags": [],
+                "description": "",
+                "assign_to": [
+                    "Yet to Assign"
+                ],
+                "checklists": "",
+                "job_value": "",
+                "amc_id": "",
+                "amc_asset_id_or_service_id": "",
+                "asset_id": "",
+                "tracking_times": [],
+                "tracking_costs": [],
+                "estimated_time": "01:00",
+                "job_start_date": "",
+                "job_start_time": "",
+                "job_end_date": "Yet to Schedule",
+                "job_end_time": "",
+                "actual_time_spent": "00:00:00",
+                "created_at": "13-11-2026",
+                "updated_at": "13-11-2026",
+                "created_by": "Amelia Stevenson",
+                "updated_by": "",
+                "serial_job_no": "",
+                "is_revisit": "",
+                "asset_count": "",
+                "revisit_count": "",
+                "service_category": "General Service",
+                "job_created_from": "Internal",
+                "type_of_job": "",
+                "actual_start_date": "",
+                "actual_start_time": "",
+                "actual_end_date": "",
+                "actual_end_time": "",
+                "actual_completed_date": "",
+                "serial_number": "",
+                "model_number": "",
+                "bffab57e-d177-4bd2-825b-3bb385a37436": null,
+                "58bd247e-d49a-43d8-a1b1-1428caff4432": [],
+                "e53faf21-d514-4120-8c16-728746c19f75": null,
+                "1439d854-6938-4bdd-966c-f8925db748dd": "",
+                "ac1678bc-b069-4298-83a1-79068f483b70": "",
+                "271ee07d-8d28-49a9-8714-a2f43baa5449": "",
+                "b24ef7ce-2e5d-4c6f-9950-fd3bdde1c60d": "",
+                "3bd18e63-d9d8-43db-91e4-6ef4db7d3172": "",
+                "cf8202ed-2dfd-4659-993e-f8fb9d13f460": ""
+            },
+            "modules": {
+                "Contact": [],
+                "Company": [],
+                "Lead": [
+                    {
+                        "name": "Rina Morrow",
+                        "customer": "Kaltec Services Pty Ltd - James Burnett",
+                        "lead_no": "Lead 001",
+                        "pipeline_setting_id": "Default Pipeline",
+                        "location_id": "Roary Bell Location",
+                        "phone_number": "+1 15643747258",
+                        "email": "todolahyk@yopmail.com",
+                        "lead_owner_id": "Amelia Stevenson",
+                        "priority_id": "Warm",
+                        "lead_value": "15.00",
+                        "assign_to_id": "Amelia Stevenson",
+                        "tags": [
+                            "Nisi laborum Repell"
+                        ],
+                        "description": "Esse rem elit nisi ",
+                        "forms": [
+                            "l",
+                            "e",
+                            "a",
+                            "d"
+                        ],
+                        "tracking_parts": "",
+                        "lead_status_id": "In Progress",
+                        "lead_location": "",
+                        "pipeline_stage_id": "New Lead",
+                        "last_comment": "sdsaf",
+                        "created_at": "13-11-2026",
+                        "created_at_time": "15:34",
+                        "updated_at": "13-11-2026 10:43",
+                        "created_by": "Amelia Stevenson",
+                        "updated_by": "Amelia Stevenson",
+                        "follow_up_date": [
+                            "12-11-2026"
+                        ]
+                    }
+                ],
+                "Asset": [],
+                "AMC": [],
+                "User": []
+            }
+        },
+        {
+            "metadata": {
+                "id": "876f86dd-ec85-4f8b-98d3-177418793556",
+                "status": "active"
+            },
+            "base_values": {
+                "customer": "",
+                "job_no": "JOBZ 017",
+                "job_status": "",
+                "location_id": "Roary Bell Location",
+                "location": "",
+                "business_unit_id": "",
+                "service_type_id": "",
+                "priority_id": "Low",
+                "title": "",
+                "tags": [],
+                "description": "",
+                "assign_to": [
+                    "Yet to Assign"
+                ],
+                "checklists": "",
+                "job_value": "",
+                "amc_id": "",
+                "amc_asset_id_or_service_id": "",
+                "asset_id": "",
+                "tracking_times": [],
+                "tracking_costs": [],
+                "estimated_time": "01:00",
+                "job_start_date": "",
+                "job_start_time": "",
+                "job_end_date": "Yet to Schedule",
+                "job_end_time": "",
+                "actual_time_spent": "00:00:00",
+                "created_at": "11-11-2026",
+                "updated_at": "11-11-2026",
+                "created_by": "Amelia Stevenson",
+                "updated_by": "Amelia Stevenson",
+                "serial_job_no": "",
+                "is_revisit": "",
+                "asset_count": "",
+                "revisit_count": "",
+                "service_category": "General Service",
+                "job_created_from": "Internal",
+                "type_of_job": "",
+                "actual_start_date": "",
+                "actual_start_time": "",
+                "actual_end_date": "",
+                "actual_end_time": "",
+                "actual_completed_date": "",
+                "serial_number": "",
+                "model_number": "",
+                "bffab57e-d177-4bd2-825b-3bb385a37436": null,
+                "58bd247e-d49a-43d8-a1b1-1428caff4432": [],
+                "e53faf21-d514-4120-8c16-728746c19f75": null,
+                "1439d854-6938-4bdd-966c-f8925db748dd": "",
+                "ac1678bc-b069-4298-83a1-79068f483b70": "",
+                "271ee07d-8d28-49a9-8714-a2f43baa5449": "",
+                "b24ef7ce-2e5d-4c6f-9950-fd3bdde1c60d": "",
+                "3bd18e63-d9d8-43db-91e4-6ef4db7d3172": "",
+                "cf8202ed-2dfd-4659-993e-f8fb9d13f460": ""
+            },
+            "modules": {
+                "Contact": [],
+                "Company": [],
+                "Lead": [],
+                "Asset": [],
+                "AMC": [],
+                "User": []
+            }
+        }
+    ],
+    "pagination": {
+        "totalItems": 6,
+        "itemsPerPage": 10,
+        "currentPage": 1,
+        "totalPages": 1,
+        "endpoint": "http://127.0.0.1:8004/v1/reports/8ac811c2-398c-4962-ad7a-feaeaeb9c91e",
+        "query_params": {}
+    }
+}
